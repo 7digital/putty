@@ -7031,15 +7031,7 @@ static void do_ssh2_authconn(Ssh ssh, unsigned char *in, int inlen,
 		    } else if (s->type==AUTH_TYPE_KEYBOARD_INTERACTIVE_QUIET) {
 			/* server declined keyboard-interactive; ignore */
 		    } else {
-			c_write_str(ssh, "Access denied\r\n");
-			logevent("Access denied");
-			if (s->type == AUTH_TYPE_PASSWORD &&
-			    ssh->cfg.change_username) {
-			    /* XXX perhaps we should allow
-			     * keyboard-interactive to do this too? */
-			    s->we_are_in = FALSE;
-			    break;
-			}
+			bombout(("Access denied"));
 		    }
 		} else {
 		    c_write_str(ssh, "Further authentication required\r\n");
